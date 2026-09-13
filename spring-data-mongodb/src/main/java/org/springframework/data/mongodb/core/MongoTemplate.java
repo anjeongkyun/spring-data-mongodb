@@ -112,6 +112,8 @@ import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.UpdateDefinition;
 import org.springframework.data.mongodb.core.query.UpdateDefinition.ArrayFilter;
+import org.springframework.data.mongodb.core.sequence.DefaultMongoSequences;
+import org.springframework.data.mongodb.core.sequence.MongoSequences;
 import org.springframework.data.mongodb.core.timeseries.Granularity;
 import org.springframework.data.mongodb.core.validation.Validator;
 import org.springframework.data.projection.EntityProjection;
@@ -828,6 +830,16 @@ public class MongoTemplate implements MongoOperations, ApplicationContextAware, 
 	@Override
 	public IndexOperations indexOps(Class<?> entityClass) {
 		return indexOps(getCollectionName(entityClass), entityClass);
+	}
+
+	/**
+	 * Obtain a factory for MongoDB backed sequences using this template for database access.
+	 *
+	 * @return a new {@link MongoSequences} instance, never {@literal null}.
+	 * @since 5.0
+	 */
+	public MongoSequences sequenceFactory() {
+		return new DefaultMongoSequences(this);
 	}
 
 	@Override
